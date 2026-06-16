@@ -1,0 +1,23 @@
+name: demo-cluster-install
+permissions:
+  contents: read
+on: workflow_dispatch
+
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: octelium/github-action@v1
+        with:
+          domain: c01.c01.octelium.org
+          auth-token: ${{ secrets.OCTELIUM_AUTH_TOKEN }}
+
+      - name: Access an Octelium Service
+        run: curl http://demo-nginx
+
+      - name: Logout
+        if: always()
+        uses: octelium/github-action@v1
+        with:
+          domain: c01.c01.octelium.org
+          command: logout
